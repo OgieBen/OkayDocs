@@ -55,9 +55,9 @@ Before we proceed to linking your users to **Okay**. We need to generate and sto
 
 ```JSON
   {
-    "tenantId": <your tenant id>,
+    "tenantId": "<your tenant id>",
     "userExternalId": "User Unique Identifier",
-    "signature": BASE64[SHA256(tenantId | userExternalId | secret)]
+    "signature": "BASE64[SHA256(tenantId | userExternalId | secret)]"
   }
 ```
 
@@ -130,14 +130,14 @@ Just like linking a user, we will be sending a JSON payload as a **POST** reques
 
 ```JSON
   {
-    "tenantId": <your tenant id>,
+    "tenantId": "<your tenant id>",
     "userExternalId": "User Unique Identifier",
     "type": "<Authorization type>",
     "authParams": {
         "guiText": "message that is shown in the Okay application",
         "guiHeader": "header of the message that is shown in the Okay application"
     },
-    "signature": BASE64[SHA256(tenantId | userExternalId | secret)]
+    "signature": "BASE64[SHA256(tenantId | userExternalId | secret)]"
   }
 ```
 
