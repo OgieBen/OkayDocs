@@ -118,7 +118,7 @@ When your request is correct you'll get a response with the following body:
   }
 ```
 
-For better reference to all possible code and messages you can recieve from **Okay** server please refer to this [link](https://github.com/Okaythis/okay-example/wiki/Server-Response-Status-Codes).
+For better reference to all possible status code and messages you can recieve from **Okay** server please refer to this [link](https://github.com/Okaythis/okay-example/wiki/Server-Response-Status-Codes).
 
 ## Authenticate User/Authorize User Action
 
@@ -204,5 +204,5 @@ When your request is correct you'll get a response with the following body struc
 }
 ```
 
-For better reference to all possible code and messages you can recieve from **Okay** server please refer to this [link](https://github.com/Okaythis/okay-example/wiki/Server-Response-Status-Codes).
+For better reference to all possible status code and messages you can recieve from **Okay** server please refer to this [link](https://github.com/Okaythis/okay-example/wiki/Server-Response-Status-Codes).
 
