@@ -10,7 +10,7 @@
 
  ![Tenant Table Image](/images/tenant-dashboard.png)
 
-## Overview of the Tenant web table
+## Overview of the Tenant table
 
  As you can see, you already have an entry in the **Tenants** table. The contents of that row are essential in understanding how to integrate Okay into your server.
 
