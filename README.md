@@ -154,7 +154,7 @@ The `type` key in our JSON payload is a field that allows us to clearly specify 
 - "ENROLLMENT_PROTECTORIA_OK"
 - "UNKNOWN"
 
-The `authParams` just contains a message and its header that will be displayed on the Okay App. The message is intead for the use to read in order to grant Okay the required permission to proceed.
+The `authParams` just contains a message and its header that will be displayed on the Okay App. The message is intended for the user to read, in order to grant Okay the required permission to complete a transaction/authentication.
 
 We can now proceed to sending our request to `Okay` like so.
 
