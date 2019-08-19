@@ -2,11 +2,11 @@
 
  To proceed with Okay integration, you are required to create an account using this [link](https://okaythis.com/signup). Once you are successfully signed up, login in with the credentials that you used to create the account [here](https://demostand.okaythis.com/multi-tenant-admin/login).
 
- Once you are logged in to your [dashboard](https://demostand.okaythis.com/pss-admin/dashboard) click on **Tenants** in the top toolbar then select [**tenants**](https://demostand.okaythis.com/multi-tenant-admin/tenants) from the drop down menu.
+ Once you are logged in to your [dashboard](https://demostand.okaythis.com/pss-admin/dashboard) click on **Tenants** in the top toolbar, then select [**tenants**](https://demostand.okaythis.com/multi-tenant-admin/tenants) from the drop down menu.
 
  ![Dashboard Toolbar Image](/images/toolbar-tenants.png)
 
- The [**Tenants**](https://demostand.okaythis.com/multi-tenant-admin/tenants) web page is where you will register your server as a SPS service that will communicate with Okay servers in order to verify/intiate secure transactions/authentications. You tenant page should present a table that looks like the table below.
+ The [**Tenants**](https://demostand.okaythis.com/multi-tenant-admin/tenants) web page is where you will register your server as an SPS that will communicate with Okay servers in order to verify/intiate secure transactions/authentications. You tenant page should present a table that looks like the table below.
 
  ![Tenant Table Image](/images/tenant-dashboard.png)
 
@@ -34,7 +34,7 @@ The **Action** column has three button that allows us to edit our tenant credent
 
 ## Adding Credentials to your Tenant
 
-To make our tenant useful we will be adding more information to the tenant to allow connect properly/securely to Okay servers. Click on the pencil icon under **Actions** to complete the tenant registration.
+To make our tenant useful we will be adding more information to the tenant to connect properly/securely to Okay servers. Click on the pencil icon under **Actions** to complete the tenant registration.
 
 ![Edit Tenant Image](/images/edit-tenant.png)
 
