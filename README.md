@@ -38,14 +38,14 @@ To make our tenant useful we will be adding more information to the tenant to co
 
 ![Edit Tenant Image](/images/edit-tenant.png)
 
-To be able to recieve feedbacks from Okay servers we will need to add a valid callback url (A callback url is an endpoint on your server that will be used as a point of communication by **Okay** to notify your server about the status of transactions/authentication) to the **Callback** input field and also generate a secret secure token(or secret) that will be used to verify all transactions to **Okay** secure servers. The tokens could be any aphanumeric secure string that contains between 0-30 characters and must be kept secret. 
+To be able to recieve feedbacks from Okay servers you will need to add a valid callback url (A callback url is an endpoint on your server that will be used as a point of communication by **Okay** to notify your server about the status of transactions/authentication) to the **Callback** input field and also generate a secret secure token(or secret) that will be used to verify all transactions by **Okay** secure servers. The tokens could be any aphanumeric secure string that contains between 0-30 characters and must be kept secret. 
 
 **Note:** we will be referring to our **Token** as **secret** in further illustration.
 
 **LINKING USERS**
 ===============
 
-Before we can authorize transactions using **Okay** we need to link our users to **Okay** so that we identify all transactions coming from different users.
+Before we can authorize transactions using **Okay** we need to link our users to **Okay** so that we can identify all transactions coming from different users.
 
 ### Provide a Unique Value Generator
 
