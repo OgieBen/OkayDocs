@@ -120,7 +120,8 @@ When your request is correct you'll get a response with the following body:
 
 For better reference to all possible status code and messages you can recieve from **Okay** server please refer to this [link](https://github.com/Okaythis/okay-example/wiki/Server-Response-Status-Codes).
 
-## Authenticate User/Authorize User Action
+**Authenticate User/Authorize User Action**
+==========================================
 
 After Linking a user, we can now authenticate that user or authorize the user's action.
 
@@ -208,7 +209,8 @@ For better reference to all possible status code and messages you can recieve fr
 
 The `sessionExternalId` can be used to check status of this request. We will see below in the **Check Authentication/Authorization Status** section how we can use the  `sessionExternalId` value retrieved from the response to check the status of our transaction .
 
-## Check Authentication/Authorization Status
+**Check Authentication/Authorization Status**
+=============================================
 
 After Authorizing/Authenticating a user we can check the status of that request by send a JSON payload as a **POST** request to this endpoint `https://demostand.okaythis.com/gateway/check` on **Okay** Server.
 
@@ -252,6 +254,7 @@ The `authResult` field may contain any of these values as a user response from t
 | 103 |OK |
 
 
-## Callbacks
+**Callbacks**
+===============
 
 Some actions might take users some time to accomplish. To prevent long lasting requests and overloading the Okay server with enormous amount of the Check Requests the Okay server sends callbacks when long lasting action is completed. The target URI should be configured with the Okay website on the Tenant Settings page.
