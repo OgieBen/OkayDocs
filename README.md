@@ -206,3 +206,52 @@ When your request is correct you'll get a response with the following body struc
 
 For better reference to all possible status code and messages you can recieve from **Okay** server please refer to this [link](https://github.com/Okaythis/okay-example/wiki/Server-Response-Status-Codes).
 
+The `sessionExternalId` can be used to check status of this request. We will see below in the **Check Authentication/Authorization Status** section how we can use the  `sessionExternalId` value retrieved from the response to check the status of our transaction .
+
+## Check Authentication/Authorization Status
+
+After Authorizing/Authenticating a user we can check the status of that request by send a JSON payload as a **POST** request to this endpoint `https://demostand.okaythis.com/gateway/check` on **Okay** Server.
+
+### ***A typical structure of our JSON payload for checking authentication/authorization status***
+
+```JSON
+{
+  "tenantId": "<your tenant id>",
+  "sessionExternalId": "user unique identifier",
+  "type": "authorization type",
+  "authParams": {
+    "guiText": "message that is shown in the Okay application",
+    "guiHeader": "header of the message that is shown in the Okay application"
+  },
+  "signature": "request signature"
+}
+```
+
+When your request is correct you'll get a response with the following body structure:
+
+```JSON
+{
+  "status": {
+    "code": "<status code>",
+    "message": "status message"
+  },
+  "authResult": {
+    "dataType": "<result data type code> eg. 101, 102, 103",
+    "data": "user response eg. CANCEL, PIN, OK"
+  }
+}
+
+```
+
+The `authResult` field may contain any of these values as a user response from the mobile app.
+
+| Code |Value|
+-------|--------
+| 101 |CANCEL |
+| 102 |PIN |
+| 103 |OK |
+
+
+## Callbacks
+
+Some actions might take users some time to accomplish. To prevent long lasting requests and overloading the Okay server with enormous amount of the Check Requests the Okay server sends callbacks when long lasting action is completed. The target URI should be configured with the Okay website on the Tenant Settings page.
