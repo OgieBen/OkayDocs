@@ -51,9 +51,9 @@ Before we can authorize transactions using **Okay** we need to link our users to
 
 Before we proceed to linking your users to **Okay**. We need to generate and store a **Unique Identifier** for every end-user in order to differentiate all your users. You can use any alpha-numeric character to compose this value, for example a **UUID**. We will be using this value in all our requests as **User Unique Identifier**. This normally serves as value to the **"userExternalId"** key in our payload.
 
-### ***A typical example of our JSON payload for linking users***
+### ***A typical structure of our JSON payload for linking users***
 
-```json
+```JSON
   {
     "tenantId": <your tenant id>,
     "userExternalId": "User Unique Identifier",
@@ -117,3 +117,92 @@ When your request is correct you'll get a response with the following body:
     "linkingQrImg": "base64-encoded image of QR code"
   }
 ```
+
+For better reference to all possible code and messages you can recieve from **Okay** server please refer to this [link](https://github.com/Okaythis/okay-example/wiki/Server-Response-Status-Codes).
+
+## Authenticate User/Authorize User Action
+
+After Linking a user, the we can now authenticate that user or authorize the user action.
+
+Just like linking a user, we will be sending a JSON payload as a **POST** request to **Okay** using this link `https://demostand.okaythis.com/gateway/auth`.
+
+### ***A typical structure of our JSON payload for authenticating users/authorizing user actions***
+
+```JSON
+  {
+    "tenantId": <your tenant id>,
+    "userExternalId": "User Unique Identifier",
+    "type": "<Authorization type>",
+    "authParams": {
+        "guiText": "message that is shown in the Okay application",
+        "guiHeader": "header of the message that is shown in the Okay application"
+    },
+    "signature": BASE64[SHA256(tenantId | userExternalId | secret)]
+  }
+```
+
+For this request we will be adding two new fields, the `type` and `authParams` fields.
+
+The `type` key in our JSON payload is a field that allows us to clearly specify the kind of authorization/authentication we choose to initiate. The `type` key can take as value any of these values listed below.
+
+- "AUTH_OK"
+- "AUTH_PIN"
+- "AUTH_PIN_TAN"
+- "AUTH_PIN_PROTECTORIA_OK"
+- "GET_PAYMENT_CARD"
+- "ENROLLMENT"
+- "ENROLLMENT_PROTECTORIA_OK"
+- "UNKNOWN"
+
+The `authParams` just contains a message and its header that will be displayed on the Okay App. The message is intead for the use to read in order to grant Okay the required permission to proceed.
+
+We can now proceed to sending our request to `Okay` like so.
+
+```js
+
+  const PSS_BASE_URL = 'https://demostand.okaythis.com';
+  const TENANT_ID = 40007;
+  const USER_EXTERNAL_ID = 'uid406jkt';
+  const SECRET = 'securetoken';
+
+  const hashStr = `${TENANT_ID}${USER_EXTERNAL_ID}${SECRET}`;
+  const signature = base64(sha256(hashStr));
+  const authParams = {
+        "guiText": 'Do you okay this transaction',
+        "guiHeader": 'Authorization requested'
+  };
+  const type = 'AUTH_OK';
+
+  const payload = {
+    tenantId,
+    userExternalId,
+    type,
+    authParams,
+    signature
+  }
+
+  fetch(`${PSS_BASE_URL}/gateway/auth`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(response => console.log(response.json));
+
+```
+
+When your request is correct you'll get a response with the following body structure:
+
+```
+{
+  "status": {
+    "code": <status code>,
+    "message": "status message"
+  },
+  "sessionExternalId": "unique session identifier"
+}
+```
+
+For better reference to all possible code and messages you can recieve from **Okay** server please refer to this [link](https://github.com/Okaythis/okay-example/wiki/Server-Response-Status-Codes).
+
