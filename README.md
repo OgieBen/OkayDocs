@@ -229,6 +229,8 @@ After Authorizing/Authenticating a user we can check the status of that request 
 }
 ```
 
+The `signature` key here has to match the request `signature`
+
 When your request is correct you'll get a response with the following body structure:
 
 ```JSON
@@ -247,14 +249,14 @@ When your request is correct you'll get a response with the following body struc
 
 The `authResult` field may contain any of these values as a user response from the mobile app.
 
-| Code |Value|
+| DataType |Data|
 -------|--------
 | 101 |CANCEL |
 | 102 |PIN |
 | 103 |OK |
 
+### Recommendation/Issues
 
-**Callbacks**
-===============
-
-Some actions might take users some time to accomplish. To prevent long lasting requests and overloading the Okay server with enormous amount of the Check Requests the Okay server sends callbacks when long lasting action is completed. The target URI should be configured with the Okay website on the Tenant Settings page.
+- `dataType` should be replaced with `statusCode` while `data` should be replaced with `message` on `authResult`.
+- If the check endpoint `https://demostand.okaythis.com/gateway/check` only check the status of transactions/authentications then, sending the `authParams` field as part of the payload might be an unneseccary overhead.
+- I think `type` should be renamed to `authType` on the **Check/Auth** payload.
