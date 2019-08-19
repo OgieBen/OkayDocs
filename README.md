@@ -260,3 +260,13 @@ The `authResult` field may contain any of these values as a user response from t
 - `dataType` should be replaced with `statusCode` while `data` should be replaced with `message` on `authResult`.
 - If the check endpoint `https://demostand.okaythis.com/gateway/check` only check the status of transactions/authentications then, sending the `authParams` field as part of the payload might be an unneseccary overhead.
 - I think `type` should be renamed to `authType` on the **Check/Auth** payload.
+
+
+### EndPoints to add for a CRM
+
+Tenant Management
+
+GET
+/api/tenants/{tenantId}
+/api/tenants/{tenantId}/transaction-limits
+/api/tenant-linkings
