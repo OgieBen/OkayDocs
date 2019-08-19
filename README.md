@@ -122,7 +122,7 @@ For better reference to all possible status code and messages you can recieve fr
 
 ## Authenticate User/Authorize User Action
 
-After Linking a user, the we can now authenticate that user or authorize the user action.
+After Linking a user, we can now authenticate that user or authorize the user's action.
 
 Just like linking a user, we will be sending a JSON payload as a **POST** request to **Okay** using this link `https://demostand.okaythis.com/gateway/auth`.
 
@@ -141,7 +141,7 @@ Just like linking a user, we will be sending a JSON payload as a **POST** reques
   }
 ```
 
-For this request we will be adding two new fields, the `type` and `authParams` fields.
+For this request, we will be adding two new fields, the `type` and `authParams` fields.
 
 The `type` key in our JSON payload is a field that allows us to clearly specify the kind of authorization/authentication we choose to initiate. The `type` key can take as value any of these values listed below.
 
