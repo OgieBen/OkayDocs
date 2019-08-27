@@ -352,9 +352,9 @@ The `authResult` field may contain any of these values as a user response from t
 
  ```JSON
   {
-      "type": 101,
-      "userExternalId": "unique user identifier",
-      "signature": "callback signature"
+    "type": 101,
+    "userExternalId": "unique user identifier",
+    "signature": "callback signature"
   }
  ```
 
@@ -366,14 +366,14 @@ The `authResult` field may contain any of these values as a user response from t
 
  ```JSON
   {
-      "type": 102,
-      "userExternalId": "unique user identifier",
-      "sessionExternalId": "unique session identifier",
-      "authResult": {
-          "dataType": "<result data type code>",
-          "data": "user response"
-      },
-      "signature": "callback signature"
+    "type": 102,
+    "userExternalId": "unique user identifier",
+    "sessionExternalId": "unique session identifier",
+    "authResult": {
+        "dataType": "<result data type code>",
+        "data": "user response"
+    },
+    "signature": "callback signature"
   }
 
  ```
@@ -386,9 +386,9 @@ The `authResult` field may contain any of these values as a user response from t
 
  ```JSON
   {
-      "type": 103,
-      "userExternalId": "unique user identifier",
-      "signature": "callback signature"
+    "type": 103,
+    "userExternalId": "unique user identifier",
+    "signature": "callback signature"
   }
  ```
 
