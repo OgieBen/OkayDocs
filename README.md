@@ -342,13 +342,13 @@ The `authResult` field may contain any of these values as a user response from t
  **Callbacks**
  =============
 
- Some actions might take user some time to accomplish. To prevent long lasting requests and overloading the Okay server with enormous amount of the Check Requests the Okay server sends callbacks when long lasting action is completed. The target URI should be configured at the Okay website on the Tenant Settings page.
+ Some actions might take users some time to accomplish. To prevent long lasting requests and overloading the Okay server with enormous amount of the **Check** requests, Okay server sends callbacks when long lasting action is completed. The target URI should be configured at the Okay website on the Tenant Settings page.
 
  **Note:** every callback has a signature value. Check it to make sure the request is received from the Okay server.
 
 ## Link User Callback
 
- When an end user completes linking the Okay server sends the follow JSON data to the callback that was specified on the tenant settings page:
+ When an end user completes linking, Okay server sends the following JSON data to the callback URI that was specified on the tenant settings page:
 
  ```JSON
   {
@@ -362,7 +362,7 @@ The `authResult` field may contain any of these values as a user response from t
 
 ## Authentication (Authorization) Callback
 
- The Server sends this JSON payload when an Authorization/Authentication response from Okay mobile application is received.
+ Okay sends this JSON body when a transaction response from Okay mobile application is received.
 
  ```JSON
   {
@@ -382,7 +382,7 @@ The `authResult` field may contain any of these values as a user response from t
 
 ## Unlink User Callback
 
- When an end user removes your service from list of connected services at the Okay application, Okay sends to your server via the callback url this JSON data having this structure below:
+ When an end user removes your service from the list of connected services from Okay, Okay sends to your server via the callback URI a JSON response having the structure below:
 
  ```JSON
   {
