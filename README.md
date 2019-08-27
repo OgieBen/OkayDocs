@@ -34,7 +34,7 @@
 
 ![Action Column Image](/images/tenants-action-column.png)
 
-The **Action** column has three button that allows us to edit our tenant credentials.
+The **Action** column has three buttons that allows us to edit our tenant credentials.
 
 ## Adding Credentials to your Tenant
 
@@ -42,20 +42,20 @@ To make our tenant useful we will be adding more information to the tenant to co
 
 ![Edit Tenant Image](/images/edit-tenant.png)
 
-To be able to recieve feedbacks from Okay servers you will need to add a valid callback url (A callback url is an endpoint on your server that will be used as a point of communication by **Okay** to notify your server about the status of transactions/authentication) to the **Callback** input field. We will also need to generate a secret secure token(or secret) that will be used to verify all transactions by **Okay** secure servers. The tokens could be any aphanumeric secure string that contains between 0-30 characters and must be kept secret.
+To be able to recieve feedbacks from Okay servers you will need to add a valid callback url (A callback url is an endpoint on your server that will be used as a point of communication by **Okay** to notify your server about the status of transactions/authentication) to the **Callback** input field. We will also need to generate a secret secure token(or secret) that will be used to verify all transactions by **Okay** secure servers. The token could be any aphanumeric secure string that contains between 0-30 characters and must be kept secret.
 
-**Note:** we will be referring to our **Token** as **secret** in further illustration.
+**Note:** we will be referring to our **Token** as **secret** in further illustrations.
 
 **LINKING USERS**
 ===============
 
-Before we can authorize transactions using **Okay** we need to link our users to **Okay** so that we can identify all transactions coming from different users.
+Before we can authorize transactions using **Okay**, we need to link our users to **Okay** so that we can identify all transactions coming from different users.
 
 ### Provide a Unique Value Generator
 
 Before we proceed to linking your users to **Okay**. We need to generate and store a **Unique Identifier** for every end-user in order to differentiate all your users. You can use any alpha-numeric character to compose this value, for example a **UUID**. We will be using this value in all our requests as **User Unique Identifier**. This normally serves as value to the **"userExternalId"** key in our payload.
 
-### ***A typical structure of our JSON payload for linking users***
+### ***This is a typical structure of our JSON payload for linking users***
 
 ```JSON
   {
