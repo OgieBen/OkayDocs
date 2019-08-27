@@ -24,7 +24,11 @@
 
 ### Status
 
+ Specifies the status of your tenant.
+
 ### Trial Expiration
+
+ Shows your tenant trial expiration date, if you are still on trial mode.
 
 ### Actions
 
