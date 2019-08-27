@@ -339,6 +339,54 @@ The `authResult` field may contain any of these values as a user response from t
 | 102 |PIN |
 | 103 |OK |
 
+**Callbacks**
+=============
+Some actions might take user some time to accomplish. To prevent long lasting requests and overloading the Okay server with enormous amount of the Check Requests the Okay server sends callbacks when long lasting action is completed. The target URI should be configured at the Okay website on the Tenant Settings page.
+
+**Note:** every callback has a signature value. Check it to make sure the request is received from the Okay server.
+
+### Link User Callback
+When an end user completes linking the Okay server sends the follow JSON data to the callback that was specified on the tenant settings page:
+```JSON
+  {
+      "type": 101,
+      "userExternalId": "unique user identifier",
+      "signature": "callback signature"
+  }
+```
+
+Check Callback Types page for all available values of type.
+
+### Authentication (Authorization) Callback
+The Server sends this JSON payload when an Authorization/Authentication response from Okay mobile application is received.
+
+```JSON
+{
+    "type": 102,
+    "userExternalId": "unique user identifier",
+    "sessionExternalId": "unique session identifier",
+    "authResult": {
+        "dataType": "<result data type code>",
+        "data": "user response"
+    },
+    "signature": "callback signature"
+}
+
+```
+
+The `authResult` in the response above, has the same structure as the `authResult` returned from **Check Authentication/Authorization Status** request.
+
+### Unlink User Callback
+When an end user removes your service from list of connected services at the Okay application, Okay sends to your server via the callback url this JSON data having this structure below:
+
+```JSON
+{
+    "type": 103,
+    "userExternalId": "unique user identifier",
+    "signature": "callback signature"
+}
+```
+
 ### Recommendation/Issues
 
 - `dataType` should be replaced with `statusCode` while `data` should be replaced with `message` on `authResult`.
