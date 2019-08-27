@@ -251,7 +251,7 @@ When your request is correct you'll get a response with the following body struc
 
 For better reference to all possible status code and messages you can recieve from **Okay** server please refer to this [link](https://github.com/Okaythis/okay-example/wiki/Server-Response-Status-Codes).
 
-The `sessionExternalId` can be used to check status of this request. We will see shortly, in the **Check Authentication/Authorization Status** section, how we can use the  `sessionExternalId` value retrieved from the response to check the status of our transaction.
+The `sessionExternalId` can be used to check the status of this request. We will see shortly, in the **Check Authentication/Authorization Status** section, how we can use the  `sessionExternalId` value retrieved from the response to check the status of our transaction.
 
 **Check Authentication/Authorization Status**
 =============================================
@@ -273,7 +273,7 @@ After Authorizing/Authenticating a user we can check the status of that request 
 }
 ```
 
-The `signature` key here has to match the request `signature`
+Send a request to check the status of your transaction.
 
 ```js
   const crypto = require('crypto')
@@ -331,7 +331,7 @@ When your request is correct you'll get a response with the following body struc
 
 ```
 
-The `authResult` field may contain any of these values as a user response from the mobile app.
+The `authResult` field may contain any of these values from the table below, as a user response from the mobile app.
 
 | DataType |Data|
 -------|--------
@@ -342,7 +342,7 @@ The `authResult` field may contain any of these values as a user response from t
  **Callbacks**
  =============
 
- Some actions might take users some time to accomplish. To prevent long lasting requests and overloading the Okay server with enormous amount of the **Check** requests, Okay server sends callbacks when long lasting action is completed. The target URI should be configured at the Okay website on the Tenant Settings page.
+ Some actions might take users some time to accomplish. To prevent long lasting requests and overloading the Okay server with enormous amount of the **Check** requests, Okay server sends callbacks when the long lasting action is completed. The target URI should be configured at the Okay website on the Tenant Settings page.
 
  **Note:** every callback has a signature value. Check it to make sure the request is received from the Okay server.
 
@@ -378,7 +378,7 @@ The `authResult` field may contain any of these values as a user response from t
 
  ```
 
- The `authResult` in the response above, has the same structure as the `authResult` returned from **Check Authentication/Authorization Status** request.
+ The `authResult` key in the response above, has the same structure as the `authResult` returned from **Check Authentication/Authorization Status** request.
 
 ## Unlink User Callback
 
