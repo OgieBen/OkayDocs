@@ -175,7 +175,7 @@ Just like linking a user, we will be sending a JSON payload as a **POST** reques
 
 For this request, we will be adding two new fields, the `type` and `authParams` fields.
 
-The `type` key in our JSON payload is a field that allows us to clearly specify the kind of authorization/authentication we choose to initiate. The `type` key can take as value any of these authentication type listed below.
+The `type` key in our JSON payload is a field that allows us to clearly specify the kind of authorization/authentication we choose to initiate. The `type` key can take as value any of these authentication types listed below.
 
 - "AUTH_OK"
 - "AUTH_PIN"
@@ -348,7 +348,7 @@ The `authResult` field may contain any of these values from the table below, as 
 
 ## Link User Callback
 
- When an end user completes linking, Okay server sends the following JSON data to the callback URI that was specified on the tenant settings page:
+ When an end user completes linking, Okay server sends the following JSON data to the callback url that was specified on the tenant settings page:
 
  ```JSON
   {
@@ -382,7 +382,7 @@ The `authResult` field may contain any of these values from the table below, as 
 
 ## Unlink User Callback
 
- When an end user removes your service from the list of connected services from Okay, Okay sends to your server via the callback URI a JSON response having the structure below:
+ When an end user removes your service from the list of connected services from Okay, Okay sends to your server via the callback url a JSON response having the structure below:
 
  ```JSON
   {
