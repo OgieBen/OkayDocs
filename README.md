@@ -398,6 +398,7 @@ The `authResult` field may contain any of these values from the table below, as 
 - If the check endpoint `https://demostand.okaythis.com/gateway/check` only checks the status of transactions/authentications then, sending the `authParams` field as part of the payload might be an unneseccary overhead.
 - I think `type` should be renamed to `authType` on the **Check/Auth** payload.
 - `sessionExternalId` key on **Check Authentication/Authorization Status** payload should be the `sessionExternalId` that is returned from the previous Authentication request to the PSS and not userExternalId.
+- Using terms like `ServerLinkUserResponse`, `ServerAuthUserResponse`, `ServerAuthUserCallback`  and the likes may not be easy to understand, especially to those persons who do not have a Java background.
 
 ### EndPoints to add for a CRM
 
