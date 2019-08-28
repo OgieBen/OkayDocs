@@ -400,7 +400,7 @@ The `authResult` field may contain any of these values from the table below, as 
 - `sessionExternalId` key on **Check Authentication/Authorization Status** payload should be the `sessionExternalId` that is returned from the previous Authentication request to the PSS and not userExternalId.
 - Using terms like `ServerLinkUserResponse`, `ServerAuthUserResponse`, `ServerAuthUserCallback`  and the likes may not be easy to understand, especially to those persons who do not have a Java background.
 - There is no clear instructions as to how to integrate the Okay app to the backend.
-- The Docs lack clarity authorization types should be listed on the docs.
+- The Docs lack clarity about. `Authorization types` should be listed on the docs.
 
 ### EndPoints to add for a CRM
 
