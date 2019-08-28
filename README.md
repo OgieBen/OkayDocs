@@ -408,21 +408,12 @@ Tenant Management
 
 GET
 
-Gets tenant by id
+/api/tenants/{tenantId} (Gets tenant by id)
 
-/api/tenants/{tenantId}
+/api/tenants/{tenantId}/transaction-limits (Gets tenant's transaction limits)
 
-Gets tenant's transaction limits
-/api/tenants/{tenantId}/transaction-limits
+/api/tenant-linkings (Gets all tenant linkings that satisfy query)
 
-Gets all tenant linkings that satisfy query
+/api/tenant-sessions (Gets all tenant sessions that satisfy query)
 
-/api/tenant-linkings
-
-Gets all tenant sessions that satisfy query
-
-/api/tenant-sessions
-
-Gets tenant's integrity settings
-
-/api/tenants/{tenantId}/integrity
+/api/tenants/{tenantId}/integrity (Gets tenant's integrity settings)
