@@ -408,11 +408,12 @@ Tenant Management
 
 GET
 
+Gets tenant by id
+
 /api/tenants/{tenantId}
 
 Gets tenant's transaction limits
 /api/tenants/{tenantId}/transaction-limits
-
 
 Gets all tenant linkings that satisfy query
 
