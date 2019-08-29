@@ -211,11 +211,11 @@ The `type` key in our JSON payload is a field that allows us to clearly specify 
 
 AUTH TYPE | AUTH CODE|
 ----------|----------|
-"AUTH_OK"| 101 |
- "AUTH_PIN"| 102 |
- "AUTH_PIN_TAN"| 103 |
- "BIOMETRIC_OK"| 105 |
-"GET_PAYMENT_CARD"| 111 |
+AUTH_OK | 101 |
+AUTH_PIN | 102 |
+AUTH_PIN_TAN | 103 |
+BIOMETRIC_OK | 105 |
+GET_PAYMENT_CARD | 111 |
 
 
 The `authParams` just contains a **_message_** (`guiText`) and the **_message header_** (`guiHeader`) that will be displayed on the Okay App. The **message** is intended for the user to read, in order to grant Okay the required permission to complete a transaction/authentication.
