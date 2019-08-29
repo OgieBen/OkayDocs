@@ -177,7 +177,7 @@ You will be redirected to a camera screen, click the button at the bottom of the
 
 <img src="./images/linking-screen.png" alt="Linking Screen" width="400" />
 
-Enter the six digits linking code you recieved from your linking response to **Okay** server, then click `Link me` on the app. 
+Enter the six digits `linkingCode` you recieved from your linking response to **Okay** server, then click `Link me` on the app.
 
 If all goes smoothly, you will see a screen like the one below.
 
