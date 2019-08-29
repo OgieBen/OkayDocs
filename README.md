@@ -76,9 +76,9 @@ The `signature` key in our payload above is a hash that is generated from concat
   const axios = require('axios')
 
   const PSS_BASE_URL = 'https://demostand.okaythis.com';
-  const tenantId = 40007;
-  const userExternalId  = 'uid406jkt';
-  const secret = 'securetoken';
+  const tenantId = 40007; // replace with your tenantId
+  const userExternalId  = 'uid406jkt'; // replace with your unique user id
+  const secret = 'securetoken'; // replace with your secret
 
   const hashStr = `${tenantId}${userExternalId}${secret}`;
   const signature = createHashSignature(hashStr);
@@ -100,9 +100,9 @@ If all is set, we proceed to linking our user. To link a user we need to send ou
   const axios = require('axios')
 
   const PSS_BASE_URL = 'https://demostand.okaythis.com';
-  const tenantId = 40007;
-  const userExternalId  = 'uid406jkt';
-  const secret = 'securetoken';
+  const tenantId = 40007; // replace with your tenantId
+  const userExternalId  = 'uid406jkt'; // replace with your unique user id
+  const secret = 'securetoken'; // replace with your secret
 
   const hashStr = `${tenantId}${userExternalId}${secret}`;
   const signature = createHashSignature(hashStr);
@@ -173,7 +173,7 @@ To proceed with linking, click the white button on this screen below.
 
 <img src="./images/okay-home.png" alt="Okay Home Screen" width="400" />
 
-You will be redirected to a camera screen, click the button at the bottom of the camera screen to proceed to the linking screen shown below.
+You will be redirected to a camera screen, click the button at the bottom of the camera screen labeled `Type 'em insted` to proceed to the linking screen shown below.
 
 <img src="./images/linking-screen.png" alt="Linking Screen" width="400" />
 
@@ -227,9 +227,9 @@ We can now proceed to sending our request to `Okay` like so.
   const axios = require('axios')
 
   const PSS_BASE_URL = 'https://demostand.okaythis.com';
-  const tenantId = 40007;
-  const userExternalId  = 'uid406jkt';
-  const secret = 'securetoken';
+  const tenantId = 40007; // replace with your tenantId
+  const userExternalId  = 'uid406jkt'; // replace with your unique user id
+  const secret = 'securetoken'; // replace with your secret
   const authParams = {
     guiText: 'Do you okay this transaction',
     guiHeader: 'Authorization requested'
@@ -319,9 +319,9 @@ Send a request to check the status of your transaction.
   const axios = require('axios')
 
   const PSS_BASE_URL = 'https://demostand.okaythis.com';
-  const tenantId = 40007;
+  const tenantId = 40007; // replace with your tenantId
   const sessionExternalId  = "replace with your 'sessionExternalId' from previous Auth request"; // eg. 100226
-  const secret = 'securetoken';
+  const secret = 'securetoken'; // //replace with your secret
   const hashStr = `${tenantId}${sessionExternalId}${secret}`;
   const signature = createHashSignature(hashStr);
 
