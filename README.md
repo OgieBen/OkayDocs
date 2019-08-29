@@ -147,6 +147,18 @@ When your request is correct you'll get a response with the following body:
         "message": "OK"
     },
   }
+
+  Sample Response:
+
+  {
+    "linkingCode": "980565",
+    "linkingQrImg":
+      "iVBORw0KGgoAAAANSUhEUgAAASwAAAEsAQAAAABRBrPYAAABhUlEQVR42u3aQXKDMAwFUGVYsOQIHIWjhaPlKBwhSy8yqLIkm9CUNMae6XTme0XMW8WqLCkl/mTdCQwMDAzsb1ggW0PomIkm2e5W3+vAqpk+8zLwg+xYgjDeXoHVsfidT8JY3s5+Cjz7uYA1Y7KE2SmAtWaPC9OVFyKwlizlkF2QH6casCK23YDKliH8clGCFbC89O31Nt7t7VGZB1bEAl3YcwgpY4321yAHO8UsRcsn8ZKZRw37mKK/lcdgZ5itm+WQHORixh/+FsCKWYxtmnKuHjXs4524PwWwU0w35eKjPtZvwtIpEPUMVs/Iyrb+Odr9AayeWdOhzZ0FudVvqdIAq2J+A3r9Jtu9VxpgTVicSOROWY4j5+pdeQx2iu27j9zTzWkWBFbFcu8cmw4NcvIm+uUGBDvBtqm7VRoW7TYCAqtnPrdM02BfyYO1YpyajtXbELB2TH+Ss9SxHk4wwIrZU11hD7G5ixO2AFbPdlP32NOxNdHvhvNgnzL8Xw0YGBjYP2ZfZfRH9E/qf44AAAAASUVORK5CYII=",
+    "status": {
+        "code": 0,
+        "message": "OK"
+      }
+    }
 ```
 
 For better reference to all possible status code and messages you can recieve from **Okay** server please refer to this [link](https://github.com/Okaythis/okay-example/wiki/Server-Response-Status-Codes).
@@ -177,7 +189,9 @@ You will be redirected to a camera screen, click the button at the bottom of the
 
 <img src="./images/linking-screen.png" alt="Linking Screen" width="400" />
 
-Enter the six digits `linkingCode` you recieved from your linking response to **Okay** server, then click `Link me` on the app.
+Enter the six digits `linkingCode` you recieved from your linking response to **Okay** server, then click `Link me` on the app. In our case the `linkingCode` was `980565`.
+
+<img src="./images/linking-screen-filled.png" alt="Linking Screen" width="400" />
 
 If all goes smoothly, you will see a screen like the one below.
 
@@ -286,6 +300,17 @@ When your request is correct you'll get a response with the following body struc
   },
   "sessionExternalId": "unique session identifier"
 }
+
+Sample Response:
+
+{
+  "sessionExternalId": 100227,
+  "status": {
+    "code": 0,
+    "message": "OK"
+    }
+}
+
 ```
 
 For better reference to all possible status code and messages you can recieve from **Okay** server please refer to this [link](https://github.com/Okaythis/okay-example/wiki/Server-Response-Status-Codes).
@@ -320,7 +345,7 @@ Send a request to check the status of your transaction.
 
   const PSS_BASE_URL = 'https://demostand.okaythis.com';
   const tenantId = 40007; // replace with your tenantId
-  const sessionExternalId  = 100226; // "replace with your 'sessionExternalId' from previous Auth request
+  const sessionExternalId  = 100227; // "replace with your 'sessionExternalId' from previous Auth request
   const secret = 'securetoken'; // //replace with your secret
   const hashStr = `${tenantId}${sessionExternalId}${secret}`;
   const signature = createHashSignature(hashStr);
