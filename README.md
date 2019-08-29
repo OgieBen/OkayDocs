@@ -34,7 +34,7 @@
 
 ![Action Column Image](/images/tenants-action-column.png)
 
-The **Action** column has three buttons that allows us to edit our tenant credentials.
+The **Action** column has three buttons that allows us to manage our tenant credentials.
 
 ## Adding Credentials to your Tenant
 
@@ -168,7 +168,7 @@ For better reference to all possible status code and messages you can recieve fr
 In other to test if your server is working properly, we strongly recommend you to download the **Okay** mobile app from Google Play Store for [Android](https://play.google.com/store/apps/details?id=com.protectoria.okaythis), or Apple App Store for [iOS](https://apps.apple.com/us/app/okay-this/id1445714228).
 
 ## STEPS TO LINKING ON MOBILE APP
-After installation proceed to accepting the permissions
+After installation proceed to granting the permissions
 
 <img src="./images/first-permission.png" alt="irst Permission Screen" width="400" />
 <img src="./images/second-permission.png" alt="Second permission screen" width="400" />
@@ -189,7 +189,7 @@ You will be redirected to a camera screen, click the button at the bottom of the
 
 <img src="./images/linking-screen.png" alt="Linking Screen" width="400" />
 
-Enter the six digits `linkingCode` you recieved from your linking response to **Okay** server, then click `Link me` on the app. In our case the `linkingCode` was `980565`.
+Enter the six digits `linkingCode` you recieved from your linking response into the mobile app's input field, then click `Link me` on the app. In our case the `linkingCode` was `980565`.
 
 <img src="./images/linking-screen-filled.png" alt="Linking Screen" width="400" />
 
@@ -313,7 +313,7 @@ Sample Response:
 
 ```
 
-When the Authentication/Authorization request has been recived by **Okay** (PSS) server, it sends a push notification to the **Okay** mobile app prompting the app to begin the Authentication/Authorization on the mobile device. Okay then presents a screen that look like the one below on mobile app.
+When the Authentication/Authorization request has been recieved by **Okay** (PSS) server, it sends a push notification to the **Okay** mobile app prompting the app to begin the Authentication/Authorization on the mobile device. Okay then presents a screen that look like the one below on mobile app.
 
 <img src="./images/pss-comm.png" alt="PSS Communication Screen" width="400" />
 
