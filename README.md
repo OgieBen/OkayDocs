@@ -153,14 +153,13 @@ For better reference to all possible status code and messages you can recieve fr
 
 **LINKING WITH OKAY MOBILE APP**
 ============================
-In other to test if your server is working properly, it is advisable to download the **Okay** mobile app [Android](https://play.google.com/store/apps/details?id=com.protectoria.okaythis), [iOS](https://apps.apple.com/us/app/okay-this/id1445714228) in other to test if your server is working perfectly.
+In other to test if your server is working properly, we strongly recommend you to download the **Okay** mobile app from Google Play Store for [Android](https://play.google.com/store/apps/details?id=com.protectoria.okaythis), or Apple App Store for [iOS](https://apps.apple.com/us/app/okay-this/id1445714228).
 
 ## STEPS TO LINKING ON MOBILE APP
 After installation proceed to accepting the permissions
 
 <img src="./images/first-permission.png" alt="irst Permission Screen" width="400" />
 <img src="./images/second-permission.png" alt="Second permission screen" width="400" />
-
 
 Click the check box on this screen to grant permision then press the back button twice to return the app.
 
@@ -178,7 +177,11 @@ You will be redirected to a camera screen, click the button at the bottom of the
 
 <img src="./images/linking-screen.png" alt="Linking Screen" width="400" />
 
-Enter the six digits linking code from the response then click `Link me`. 
+Enter the six digits linking code you recieved from your linking response to **Okay** server, then click `Link me` on the app. 
+
+If all goes smoothly, you will see a screen like the one below.
+
+<img src="./images/success-screen.png" alt="Success Screen" width="400" />
 
 **Authenticate User/Authorize User Action**
 ==========================================
