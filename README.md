@@ -320,7 +320,7 @@ Send a request to check the status of your transaction.
 
   const PSS_BASE_URL = 'https://demostand.okaythis.com';
   const tenantId = 40007; // replace with your tenantId
-  const sessionExternalId  = "replace with your 'sessionExternalId' from previous Auth request"; // eg. 100226
+  const sessionExternalId  = 100226; // "replace with your 'sessionExternalId' from previous Auth request
   const secret = 'securetoken'; // //replace with your secret
   const hashStr = `${tenantId}${sessionExternalId}${secret}`;
   const signature = createHashSignature(hashStr);
