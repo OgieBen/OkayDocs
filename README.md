@@ -382,7 +382,7 @@ When the Authentication/Authorization request has been recived by **Okay** (PSS)
 
 If a secure communication was succcessfully established, **Okay** presents the authorization screen.
 
-Click the Okay button to grant authorization.
+Click the "OKAY" button to grant authorization.
 
 <img src="./images/auth-screen.png" alt="Authorization Screen" width="400" />
 
