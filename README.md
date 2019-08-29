@@ -173,7 +173,7 @@ To proceed with linking, click the white button on this screen below.
 
 <img src="./images/okay-home.png" alt="Okay Home Screen" width="400" />
 
-You will be redirected to a camera screen, click the button at the bottom of the camera screen labeled `Type 'em insted` to proceed to the linking screen shown below.
+You will be redirected to a camera screen, click the button at the bottom of the camera screen labeled `Type 'em instead` to proceed to the linking screen shown below.
 
 <img src="./images/linking-screen.png" alt="Linking Screen" width="400" />
 
