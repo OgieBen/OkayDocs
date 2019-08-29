@@ -215,7 +215,7 @@ Just like linking a user, we will be sending a JSON payload as a **POST** reques
         "guiText": "message that is shown in the Okay application",
         "guiHeader": "header of the message that is shown in the Okay application"
     },
-    "signature": "BASE64[SHA256(tenantId | userExternalId | secret)]"
+    "signature": "BASE64[SHA256(tenantId | userExternalId | guiHeader | guiText | type | secret)]"
   }
 ```
 
