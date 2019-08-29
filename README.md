@@ -317,7 +317,7 @@ When the Authentication/Authorization request has been recived by **Okay** (PSS)
 
 <img src="./images/pss-comm.png" alt="PSS Communication Screen" width="400" />
 
-If a secure communication was succcessfully established, **Okay** presents the authorization screen.
+If a secure communication channel was succcessfully established, **Okay** presents the authorization screen.
 
 Click the "OKAY" button to grant authorization.
 
