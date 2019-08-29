@@ -151,6 +151,32 @@ When your request is correct you'll get a response with the following body:
 
 For better reference to all possible status code and messages you can recieve from **Okay** server please refer to this [link](https://github.com/Okaythis/okay-example/wiki/Server-Response-Status-Codes).
 
+**LINKING WITH OKAY MOBILE APP**
+============================
+In other to test if your server is working properly, it is advisable to download the **Okay** mobile app [Android](https://play.google.com/store/apps/details?id=com.protectoria.okaythis), [iOS](https://apps.apple.com/us/app/okay-this/id1445714228) in other to test if your server is working perfectly.
+
+## STEPS TO LINKING ON MOBILE APP
+After installation proceed to accepting the permissions ![First permission screen](/images/first-permission.png) ![Second permission screen](/images/second-permission.png)
+
+Click the check box on this screen to grant permision then press the back button twice to return the app.
+
+![Settings Screen Image](/images/settings-screen.png)
+
+Grant all permission
+
+![Grant Permission Image](/images/grant-permission.png)
+
+
+To proceed with linking, click the white button on this screen below.
+
+![Okay Home Screen ](/images/okay-home.png)
+
+You will be redirected to a camera screen, click the button on that screen to proceed to the linking screen shown below.
+
+![Linking Screen](/images/linking-screen.png)
+
+Enter the six digits linking code from the response then click `Link me`. 
+
 **Authenticate User/Authorize User Action**
 ==========================================
 
@@ -177,14 +203,14 @@ For this request, we will be adding two new fields, the `type` and `authParams` 
 
 The `type` key in our JSON payload is a field that allows us to clearly specify the kind of authorization/authentication we choose to initiate. The `type` key can take as value any of these authentication types listed below.
 
-- "AUTH_OK"
-- "AUTH_PIN"
-- "AUTH_PIN_TAN"
-- "AUTH_PIN_PROTECTORIA_OK"
-- "GET_PAYMENT_CARD"
-- "ENROLLMENT"
-- "ENROLLMENT_PROTECTORIA_OK"
-- "UNKNOWN"
+AUTH TYPE | AUTH CODE|
+----------|----------|
+"AUTH_OK"| 101 |
+ "AUTH_PIN"| 102 |
+ "AUTH_PIN_TAN"| 103 |
+ "BIOMETRIC_OK"| 105 |
+"GET_PAYMENT_CARD"| 111 |
+
 
 The `authParams` just contains a **_message_** (`guiText`) and the **_message header_** (`guiHeader`) that will be displayed on the Okay App. The **message** is intended for the user to read, in order to grant Okay the required permission to complete a transaction/authentication.
 
@@ -202,9 +228,16 @@ We can now proceed to sending our request to `Okay` like so.
     guiText: 'Do you okay this transaction',
     guiHeader: 'Authorization requested'
   };
-  const type = "AUTH_OK"
+  const AUTH_TYPES = {
+    OK: 101,
+    PIN: 102,
+    PIN_TAN: 103,
+    BIOMETRIC_OK: 105,
+    GET_PAYMENT_CARD: 111,
+}
+  const type = AUTH_TYPES.OK
 
-  const hashStr = `${tenantId}${userExternalId}${secret}`;
+  const hashStr = `${tenantId}${userExternalId}${authParams.guiHeader}${authParams.guiText}${type}${secret}`;
   const signature = createHashSignature(hashStr);
 
 
@@ -281,11 +314,10 @@ Send a request to check the status of your transaction.
 
   const PSS_BASE_URL = 'https://demostand.okaythis.com';
   const tenantId = 40007;
-  const sessionExternalId  = 'sessionExternalId';
+  const sessionExternalId  = 100226;
   const secret = 'securetoken';
   const hashStr = `${tenantId}${sessionExternalId}${secret}`;
   const signature = createHashSignature(hashStr);
-
 
   axios({
     method: 'post',
@@ -305,7 +337,6 @@ Send a request to check the status of your transaction.
   .catch((error) => {
     console.log(error.response.data)
   });
-
 
   function createHashSignature(hashStr) {
     return crypto
