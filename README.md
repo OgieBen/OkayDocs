@@ -156,24 +156,28 @@ For better reference to all possible status code and messages you can recieve fr
 In other to test if your server is working properly, it is advisable to download the **Okay** mobile app [Android](https://play.google.com/store/apps/details?id=com.protectoria.okaythis), [iOS](https://apps.apple.com/us/app/okay-this/id1445714228) in other to test if your server is working perfectly.
 
 ## STEPS TO LINKING ON MOBILE APP
-After installation proceed to accepting the permissions ![First permission screen](/images/first-permission.png) ![Second permission screen](/images/second-permission.png)
+After installation proceed to accepting the permissions
+
+<img src="./images/first-permission.png" alt="irst Permission Screen" width="400" />
+<img src="./images/second-permission.png" alt="Second permission screen" width="400" />
+
 
 Click the check box on this screen to grant permision then press the back button twice to return the app.
 
-![Settings Screen Image](/images/settings-screen.png)
+<img src="./images/settings-screen.png" alt="Settings screen" width="400" />
 
-Grant all permission
+Grant all permissions
 
-![Grant Permission Image](/images/grant-permission.png)
-
+<img src="./images/grant-permission.png" alt="Grant Permission Image" width="400" />
 
 To proceed with linking, click the white button on this screen below.
 
-![Okay Home Screen ](/images/okay-home.png)
+<img src="./images/okay-home.png" alt="Okay Home Screen" width="400" />
 
-You will be redirected to a camera screen, click the button on that screen to proceed to the linking screen shown below.
+You will be redirected to a camera screen, click the button at the bottom of the camera screen to proceed to the linking screen shown below.
 
 ![Linking Screen](/images/linking-screen.png)
+<img src="./images/linking-screen.png" alt="Linking Screen" width="400" />
 
 Enter the six digits linking code from the response then click `Link me`. 
 
