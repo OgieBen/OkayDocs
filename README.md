@@ -376,6 +376,24 @@ The `authResult` field may contain any of these values from the table below, as 
 | 102 |PIN |
 | 103 |OK |
 
+When the Authentication/Authorization request has been recived by **Okay** (PSS) server, it sends a push notification to the **Okay** mobile app prompting the app to begin the Authentication/Authorization on the mobile device. Okay then presents a screen that look like the one below.
+
+<img src="./images/pss-comm.png" alt="PSS Communication Screen" width="400" />
+
+If a secure communication was succcessfully established, **Okay** presents the authorization screen.
+
+Click the Okay button to grant authorization.
+
+<img src="./images/auth-screen.png" alt="Authorization Screen" width="400" />
+
+Click "Start Now" on the modal popup to proceed.
+
+<img src="./images/third-permission.png" alt="Permission Screen" width="400" />
+
+If all goes well, Okay will present a success screen like the one below, to notify you that the request was approved successfully.
+
+<img src="./images/auth-success.png" alt="Success Screen" width="400" />
+
  **Callbacks**
  =============
 
