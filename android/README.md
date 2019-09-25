@@ -46,8 +46,23 @@ allprojects {
 We will also need to set up Firebase for our project. If you are not familiar with integrating Firebase messaging please check this [documentaion](https://firebase.google.com/docs/cloud-messaging/android/client) for more information as Okay SDK depends on it.
 
 ```gradle
-    ...
-    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    dependencies {
+        implementation fileTree(dir: 'libs', include: ['*.jar'])
+        implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+        implementation 'androidx.appcompat:appcompat:1.1.0'
+        implementation 'androidx.core:core-ktx:1.1.0'
+        implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+        implementation 'com.google.android.material:material:1.0.0'
+        testImplementation 'junit:junit:4.12'
+        androidTestImplementation 'androidx.test:runner:1.2.0'
+        androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+  
+        // Okay dependency
+        implementation 'com.okaythis.sdk:psa:1.1.0'
+
+        // Firebase Dependency
+        implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    }
 ```
 
 We can now sync our app's gradle file to build.
@@ -110,7 +125,7 @@ We will need to add our application class to our manifest file like so.
 
 ```
 
-The Okay SDK requires certain kinds of permissions to work properly. We will have to ask the users to grant this permissions before we proceed.  We can easily create these helper methods to handle permission resolution for us.
+The Okay SDK requires certain kinds of permissions to work properly. We will have to ask the users to grant these permissions before we proceed.  We can easily create these helper methods to handle permission resolution for us.
 
 ```kotlin
 
@@ -228,9 +243,10 @@ We can now proceed with our enrollment if all permissions has been granted and o
 
 ```
 
-If the `beginErollment()` method was called successfully we will need a way to retrieve information from the enrollment Activity. So wiil override the `onActivityResult()` method within our `MainActivity.kt` class.
+If the `beginErollment()` method was called successfully we will need a way to retrieve information from the enrollment Activity. So will override the `onActivityResult()` method within our `MainActivity.kt` class.
 
 ```kotlin
+// MainActivity.kt
 
  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
