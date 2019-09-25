@@ -92,14 +92,29 @@ A typical illustration of how our `Application` class should be
         super.onCreate();
 
         // PsaManager.init(this, T extends ExceptionLogger);
-        // The second argument that is being passed to PsaManager.init() method, must implement the ExceptionLogger interface. So will be creating our exception logger called  CrashlyticsExceptionLogger which implements that interface (this class could use any crash logger we choose, but we have decided to use crashlytics for this demo).
-        val psaManager = PsaManager.init(this, new CrashlyticsExceptionLogger());
+        // The second argument that is being passed to PsaManager.init() method, must implement the ExceptionLogger interface. So will be creating our exception logger called  OkayDemoLogger which implements that interface (this class could use any crash logger we choose, but we have decided to use crashlytics for this demo).
+        val psaManager = PsaManager.init(this, new OkayDemoLogger());
         psaManager.setPssAddress("http://protdemo.demohoster.com");
 
     }
 
 }
 
+```
+
+This is what my `OkayDemoLogger` class looks like
+
+```kotlin
+  class OkayDemoLogger: ExceptionLogger {
+      override fun setUserIdentificator(p0: String?) {
+          Log.e("SET ID: ", "Successfully set user identificator $p0 ")
+      }
+
+      override fun exception(p0: String?, p1: Exception?) {
+          Log.e("Exception: ", "Okay Error $p0 -- Exception: $p1")
+      }
+
+  }
 ```
 
 We will need to add our application class to our manifest file like so.
