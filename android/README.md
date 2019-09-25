@@ -92,7 +92,7 @@ A typical illustration of how our `Application` class should be
         super.onCreate();
 
         // PsaManager.init(this, T extends ExceptionLogger);
-        // The second argument that is being passed to PsaManager.init() method, must implement the ExceptionLogger interface. So will be creating our exception logger called  OkayDemoLogger which implements that interface (this class could use any crash logger we choose, but we have decided to use crashlytics for this demo).
+        // The second argument that is being passed to PsaManager.init() method, must implement the ExceptionLogger interface. So will be creating our exception logger called  OkayDemoLogger which implements that interface (this class could use any crash logger we choose like Crashlytics).
         val psaManager = PsaManager.init(this, new OkayDemoLogger());
         psaManager.setPssAddress("http://protdemo.demohoster.com");
 
