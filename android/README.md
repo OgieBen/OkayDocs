@@ -4,9 +4,11 @@ This is a simple guide on how to integrate and initiate enrollment with Okay SDK
 
 We will begin by creating a new Android project on Android Studio.
 
-Before we begin enrollment with Okay on our Android app, we will need to add Okay as a dependency to our app level `build.gradle` file (i.e `app\build.gradle`)
+Before we begin enrollment with Okay on our Android app, we will need to add Okay as a dependency to our app level `build.gradle` file (i.e `app\build.gradle`).
 
 ```gradle
+
+// app/build.gradle
 
 ...
 
@@ -30,6 +32,7 @@ dependencies {
 We will also be adding Okay's maven repository to your project level `build.gradle` file.
 
 ```gradle
+// project/build.gradle
 
 allprojects {
     repositories {
@@ -46,23 +49,25 @@ allprojects {
 We will also need to set up Firebase for our project. If you are not familiar with integrating Firebase messaging please check this [documentaion](https://firebase.google.com/docs/cloud-messaging/android/client) for more information as Okay SDK depends on it.
 
 ```gradle
-    dependencies {
-        implementation fileTree(dir: 'libs', include: ['*.jar'])
-        implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-        implementation 'androidx.appcompat:appcompat:1.1.0'
-        implementation 'androidx.core:core-ktx:1.1.0'
-        implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-        implementation 'com.google.android.material:material:1.0.0'
-        testImplementation 'junit:junit:4.12'
-        androidTestImplementation 'androidx.test:runner:1.2.0'
-        androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-  
-        // Okay dependency
-        implementation 'com.okaythis.sdk:psa:1.1.0'
+// app/build.gradle
 
-        // Firebase Dependency
-        implementation 'com.google.firebase:firebase-messaging:20.0.0'
-    }
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    // Okay dependency
+    implementation 'com.okaythis.sdk:psa:1.1.0'
+
+    // Firebase Dependency
+    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+}
 ```
 
 We can now sync our app's gradle file to build.
@@ -71,19 +76,21 @@ We can now sync our app's gradle file to build.
 
 In order for Okay SDk to work correctly we will need to sync the SDK with PSS. Initialization of the PSA should be done within our Application class, inside the `onCreate()` method.
 
-We use the `PsaManager` class from Okay to initialize our PSA. We will be using two methods from the `PsaManager` class, the `init()` and `setPssAddress()` methods. The `init()` and `setPssAddress()`  method from the `PsaManager` class has the following structure
+We use the `PsaManager` class from Okay to initialize our PSA. We will be using two methods from the `PsaManager` class, the `init()` and `setPssAddress()` methods. The `init()` and `setPssAddress()`  method from the `PsaManager` class has the following structure.
 
 ```java
 
   PsaManager psaManager = PsaManager.init(Context c, T extends ExceptionLogger)
 
-  // The PSS_SERVER_ENDPOINT is the url address for our PSS service e.g http://35.157.190.14:9080
+  // The PSS_SERVER_ENDPOINT is the url address for our PSS service e.g http://protdemo.demohoster.com
   psaManager.setPssAddress(PSS_SERVER_ENDPOINT);
 ```
 
 A typical illustration of how our `Application` class should be
 
 ```kotlin
+
+// OkayDemoApplication.kt
 
  class OkayDemoApplication: Application {
 
@@ -92,7 +99,10 @@ A typical illustration of how our `Application` class should be
         super.onCreate();
 
         // PsaManager.init(ApplicationContext applicationContext, T extends ExceptionLogger);
-        // The second argument that is being passed to PsaManager.init() method, must implement the ExceptionLogger interface. So will be creating our exception logger called  OkayDemoLogger which implements that interface (this class could use any crash logger we choose like Crashlytics).
+        // The second argument that is being passed to PsaManager.init() method, 
+        // must implement the ExceptionLogger interface. So will be creating our exception logger 
+        // called  OkayDemoLogger which implements that interface (this class could use 
+        // any crash logger we choose like Crashlytics).
         val psaManager = PsaManager.init(this, new OkayDemoLogger());
         psaManager.setPssAddress("http://protdemo.demohoster.com");
 
@@ -102,7 +112,7 @@ A typical illustration of how our `Application` class should be
 
 ```
 
-This is what my `OkayDemoLogger` class looks like
+This is what my `OkayDemoLogger` class looks like.
 
 ```kotlin
   class OkayDemoLogger: ExceptionLogger {
@@ -117,7 +127,7 @@ This is what my `OkayDemoLogger` class looks like
   }
 ```
 
-We will need to add our application class to our manifest file like so.
+We will need to add our application class to our manifest file by adding `android:name=".OkayDemoApplication"` to our application tag.
 
 ```xml
 
@@ -126,7 +136,7 @@ We will need to add our application class to our manifest file like so.
           package="com.ogieben.okaydemo">
 
     <application
-      android:name=".OkayDemoApplication"
+      android:name=".OkayDemoApplication" 
       android:allowBackup="true"
       android:icon="@mipmap/ic_launcher"
       android:label="@string/app_name"
@@ -139,11 +149,11 @@ We will need to add our application class to our manifest file like so.
     </application>
 
 ```
+### Permissions
 
 The Okay SDK requires certain kinds of permissions to work properly. We will have to ask the users to grant these permissions before we proceed.  We can easily create these helper methods to handle permission resolution for us.
 
 ```kotlin
-
 // PermissionHelper.kt
 
 class PermissionHelper(private val activity: Activity) {
@@ -162,7 +172,6 @@ class PermissionHelper(private val activity: Activity) {
 The Okay SDK comes with a prepacked method `PsaManager.getRequiredPermissions()` that helps us fetch an array of all required permissions.
 
 ```kotlin
-
 // MainActivity.kt
 
   val permissionHelper = PermissionHelper(activity)
@@ -303,9 +312,9 @@ PsaManager.linkTenant(linkingCode: String, spaStorage: SpaStorage, linkingScenar
 
 The **LinkingScenarioListener** must be implemented, as it allows to listen for two possible events: **onLinkingCompletedSuccessful** and **onLinkingCompletedSuccessful**. We will be implementing this listener soon.
 
-We will also need to implment the **SpaStorage** interface in our application. I think the easiest place to do this, is from our **PreferenceRepo** class. Of course this is just for convenience.
+We will also need to implment the **SpaStorage** interface in our application. I think the easiest place to do this, is from one of our repositories(**PreferenceRepo** class in this case). Of course this is just for convenience.
 
-Below is a typical example of what my **PreferenceStorage** class might look like.
+Below is a typical example of what my **PreferenceRepo** class might look like.
 
 ```kotlin
     class PreferenceRepo(context: Context): SpaStorage {
