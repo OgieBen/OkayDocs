@@ -284,7 +284,7 @@ If the `beginErollment()` method was called successfully we will need a way to r
 ```
 
 
-## Linking User using Okay Sdk 
+## Linking a user with Okay Sdk 
 
 In order to successfully finish the initialization stage we need to link the user with Okay. This allows us to authorize/authenticate a prticular user's action.`
 
