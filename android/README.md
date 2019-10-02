@@ -77,7 +77,7 @@ We use the `PsaManager` class from Okay to initialize our PSA. We will be using 
 
   PsaManager psaManager = PsaManager.init(Context c, T extends ExceptionLogger)
 
-  // The PSS_SERVER_ENDPOINT is the url address for our PSS service e.g "http://protdemo.demohoster.com"
+  // The PSS_SERVER_ENDPOINT is the url address for our PSS service e.g http://35.157.190.14:9080
   psaManager.setPssAddress(PSS_SERVER_ENDPOINT);
 ```
 
@@ -91,7 +91,7 @@ A typical illustration of how our `Application` class should be
 
         super.onCreate();
 
-        // PsaManager.init(this, T extends ExceptionLogger);
+        // PsaManager.init(ApplicationContext applicationContext, T extends ExceptionLogger);
         // The second argument that is being passed to PsaManager.init() method, must implement the ExceptionLogger interface. So will be creating our exception logger called  OkayDemoLogger which implements that interface (this class could use any crash logger we choose like Crashlytics).
         val psaManager = PsaManager.init(this, new OkayDemoLogger());
         psaManager.setPssAddress("http://protdemo.demohoster.com");
@@ -281,4 +281,148 @@ If the `beginErollment()` method was called successfully we will need a way to r
         }
     }
 
+```
+
+
+## Linking User using Okay Sdk 
+
+In order to successfully finish the initialization stage we need to link the user with Okay. This allows us to authorize/authenticate a prticular user's action.`
+
+Note: This section of the Okay SDK requires interaction with a dedicated server that sits as a middleman between PSS and PSA. We highly recommend that you have this server built/running while going through this section of the documentation.
+
+We will send a request to our server to start the linking process. We will be sending the ***externalId*** generated from Okay SDK as a parameter to our server. If our request was processed successfully we will recieve a response with the **linkingCode**
+required to complete the linking. The linkCode is a six digit number generated for this purpose.
+
+After we successfully generated the linking code we can now proceed to linking the user with Okay SDK.
+
+**PsaManager** provides us with a helper function that allows us to link users with SPS right from Okay SDK. The structure of the method is like so.
+
+```kotlin
+PsaManager.linkTenant(linkingCode: String, spaStorage: SpaStorage, linkingScenarioListener: LinkingScenarioListener)
+```
+
+The **LinkingScenarioListener** must be implemented, as it allows to listen for two possible events: **onLinkingCompletedSuccessful** and **onLinkingCompletedSuccessful**. We will be implementing this listener soon.
+
+We will also need to implment the **SpaStorage** interface in our application. I think the easiest place to do this, is from our **PreferenceRepo** class. Of course this is just for convenience.
+
+Below is a typical example of what my **PreferenceStorage** class might look like.
+
+```kotlin
+    class PreferenceRepo(context: Context): SpaStorage {
+
+    private val prefStorage: SharedPreferences =
+        context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE)
+    
+    override fun getPubPssBase64(): String? {
+        return prefStorage.getString(PUB_PSS_B64, "")
+    }
+
+    override fun putAppPNS(p0: String?) {
+        with(prefStorage.edit()) {
+            putString(APP_PNS, p0)
+            commit()
+        }
+    }
+
+    override fun putPubPssBase64(p0: String?) {
+        with(prefStorage.edit()) {
+            putString(PUB_PSS_B64, p0)
+            commit()
+        }
+    }
+
+    override fun getAppPNS(): String? {
+        return prefStorage.getString(APP_PNS, "")
+    }
+
+    override fun getEnrollmentId(): String? {
+        return prefStorage.getString(ENROLLMENT_ID, "")
+    }
+
+    override fun putInstallationId(p0: String?) {
+        with(prefStorage.edit()) {
+            putString(INSTALLATION_ID, p0)
+            commit()
+        }
+    }
+
+    override fun putExternalId(p0: String?) {
+        with(prefStorage.edit()) {
+            putString(EXTERNAL_ID, p0)
+            commit()
+        }
+    }
+
+    override fun putEnrollmentId(p0: String?) {
+        with(prefStorage.edit()) {
+            putString(ENROLLMENT_ID, p0)
+            commit()
+        }
+    }
+
+    override fun getInstallationId(): String? {
+        return prefStorage.getString(INSTALLATION_ID, "")
+    }
+
+    override fun getExternalId(): String? {
+        return prefStorage.getString(EXTERNAL_ID, "")
+    }
+
+    companion object {
+        const val PREFERENCE_KEY = "firebase_instance_id"
+        const val APP_PNS = "app_pns"
+        const val EXTERNAL_ID = "external_id"
+        const val PUB_PSS_B64 = "pub_pss_b64"
+        const val ENROLLMENT_ID = "enrollment_id"
+        const val INSTALLATION_ID = "installation_id"
+    }
+}
+
+```
+
+This is a typical way to make a call to **linkTenant()** method.
+
+```kotlin
+// MainActivity.kt
+
+private var preferenceRepo = PreferenceRepo(this@MainActivity)
+ 
+fun linkUser(linkingCode: String) {
+        val psaManager = PsaManager.getInstance()
+        val linkingScenarioListener: LinkingScenarioListener = object: LinkingScenarioListener{
+            override fun onLinkingCompletedSuccessful(var1: Long, var3: String){
+                Toast.makeText(this@MainActivity, "Linking Successful", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onLinkingFailed(var1: ApplicationState) {
+                Toast.makeText(this@MainActivity, "Linking not Successful: ${var1.code} ", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        psaManager.linkTenant(linkingCode, preferenceRepo, linkingScenarioListener)
+    }
+
+```
+
+We can now inititiate the call to **PsaManager.linkTenant()** from our apps onCreate method like so.
+
+```kotlin
+// MainActivity.kt
+
+ override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+    setSupportActionBar(toolbar)
+
+    checkPermissions()
+    fetchInstanceId()
+    enrollment_button.setOnClickListener { view ->
+        beginEnrollment()
+    }
+
+    linking_button.setOnClickListener{ view ->
+        // pass in the linking code from the server or entered by the user
+        linkUser(linkingCodeEditText.text.toString())
+    }
+  }
 ```
