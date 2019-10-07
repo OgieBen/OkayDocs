@@ -625,7 +625,17 @@ class MainActivity : AppCompatActivity() {
         fetchInstanceId()
         handleIntent(intent)
 
-        ...
+          enrollmentButton.setOnClickListener { view ->
+            beginEnrollment()
+        }
+
+        linkingButton.setOnClickListener{
+            startServerLinking(preferenceRepo.externalId)
+        }
+
+        authorizeButton.setOnClickListener {
+            startServerAuthorization(preferenceRepo.externalId)
+        }
 
     }
 
@@ -647,6 +657,22 @@ class MainActivity : AppCompatActivity() {
             preferenceRepo.appPNS,
             null,
             PsaType.OKAY))
+    }
+
+    private fun startServerAuthorization(userExternalId: String?) {
+        transactionHandler.authorizeTransaction(userExternalId).enqueue(object: Callback<AuthorizationResponse> {
+            override fun onFailure(call: Call<AuthorizationResponse>, t: Throwable) {
+                Toast.makeText(this@MainActivity, "Error making request to Server", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onResponse(
+                call: Call<AuthorizationResponse>,
+                response: Response<AuthorizationResponse>
+            ) {
+                // Notify user request was sent 
+                Toast.makeText(this@MainActivity, "Request made successfully", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
 }
