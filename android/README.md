@@ -48,8 +48,23 @@ allprojects {
 
 We will also need to set up Firebase for our project. If you are not familiar with integrating Firebase messaging please check this [documentaion](https://firebase.google.com/docs/cloud-messaging/android/client) for more information as Okay SDK depends on it.
 
+Update your gradle file to contain this newly added lines of code.
+
 ```gradle
 // app/build.gradle
+
+android {
+
+    ...
+    // add these lines to your gradle file
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -101,7 +116,7 @@ class OkayDemoApplication: Application() {
 
     private fun initPsa() {
         val psaManager = PsaManager.init(this, OkayDemoLogger())
-        psaManager.setPssAddress(BuildConfig.SERVER_URL)
+        psaManager.setPssAddress("http://protdemo.demohoster.com")
     }
 }
 ```
@@ -136,6 +151,7 @@ We will need to add our application class to our manifest file by adding `androi
       android:label="@string/app_name"
       android:roundIcon="@mipmap/ic_launcher_round"
       android:supportsRtl="true"
+      android:usesCleartextTraffic="true"
       android:theme="@style/AppTheme">
 
       ...
@@ -197,7 +213,7 @@ We can now use the `checkPermission()` method within our `MainActivity.kt`'s `on
 
 We will need our device token from Firebase to be able to finish our enrollment.
 
-If we have firebase successfully setup, we could request for our device token using the code sample below. If you have note been able to setup Firebase please refer to this [documentaion](https://firebase.google.com/docs/cloud-messaging/android/client) as Okay requires this service to work correctly.
+If we have firebase successfully setup, we could request for our device token using the code sample below. If you have not been able to setup Firebase please refer to this [documentaion](https://firebase.google.com/docs/cloud-messaging/android/client) as Okay requires this service to work correctly.
 
 ```kotlin
 // MainActivity.kt
@@ -241,7 +257,7 @@ class MainActivity : AppCompatActivity() {
 
 ```
 
-We can now proceed with our enrollment if all permissions has been granted and our appPns(also know as Firebase token) has been retrieved successfully.
+We can now proceed with our enrollment if all permissions have been granted and our appPns(also known as Firebase token) has been retrieved successfully.
 
 ```kotlin
 
@@ -261,7 +277,7 @@ We can now proceed with our enrollment if all permissions has been granted and o
 
 ```
 
-If the `beginErollment()` method was called successfully we will need a way to retrieve information from the enrollment Activity. So will override the `onActivityResult()` method within our `MainActivity.kt` class.
+In other to retrieve information from the enrollment Activity, we override the `onActivityResult()` method within our `MainActivity.kt` class.
 
 ```kotlin
 // MainActivity.kt
@@ -289,11 +305,9 @@ If the `beginErollment()` method was called successfully we will need a way to r
 
 ## Linking a user with Okay Sdk 
 
-In order to successfully finish the initialization stage we need to link the user with Okay. This allows us to authorize/authenticate a prticular user's action.`
+In order to successfully finish the initialization stage we need to link the user with Okay. This allows us to authorize/authenticate a particular user's action.`
 
-Note: This section of the Okay SDK requires interaction with a dedicated server that sits as a middleman between PSS and PSA. We highly recommend that you have this server built/running while going through this section of the documentation. However, if you do not have a server you can just generate your linking codes from this url **http://protdemo.demohoster.com/tenant-fb/** then sign in with "tenant" as your username and "password" as your password.`
-
-To enable linking on the your app you will need to add this line of code to your app's `Application` file in my case it is going to be `OkayDemoApplication.kt`.
+To enable linking on the your app you will need to add this line of code to your app's `Application` file.
 
 ```kotlin
     class OkayDemoApplication: Application() {
@@ -308,22 +322,116 @@ To enable linking on the your app you will need to add this line of code to your
 
     private fun initPsa() {
         val psaManager = PsaManager.init(this, OkayDemoLogger())
-        psaManager.setPssAddress(BuildConfig.SERVER_URL)
+        psaManager.setPssAddress("http://protdemo.demohoster.com")
     }
 
     // Added this method 
     private fun initGatewayServer() {
-        GatewayRestServer.init(PsaGsonFactory().create(), BuildConfig.SERVER_URL + "/gateway/")
+        GatewayRestServer.init(PsaGsonFactory().create(), "http://protdemo.demohoster.com/gateway/")
     }
 }
 
 ```
 
+This section is divided into two sub-sections. The first section is for developers who do not have a dedicated server of their own but want to implement linking in their apps. While the second section is for developers who have a dedicated server and wants to link their users with Okay.
 
-We will send a request to our server to start the linking process. We will be sending the ***externalId*** generated from Okay SDK as a parameter to our server. If our request was processed successfully we will recieve a response with the **linkingCode**
-required to complete the linking. The linkCode is a six digit number generated for this purpose.
+### For Users With No Dedicated Server
 
-We make a very simple request to our server to initiate the linking process using retrofit like so.
+ Since you do not have a server to generate `linkingCode`s, you can just generate your linking codes from this url **http://spacey.okaythis.com** then sign in with "tenant" as your username and "password" as your password. You will receive a linking code that you will pass to `PsaManager.linkTenant()`, in order to manually link the current user.
+
+```kotlin
+//MainActivity.kt
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var preferenceRepo: PreferenceRepo
+    private val permissionHelper = PermissionHelper(this)
+    private val retrofitWrapper = RetrofitWrapper()
+    private val transactionHandler =  retrofitWrapper.handleTransactionEndpoints()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        setSupportActionBar(toolbar)
+
+        preferenceRepo = PreferenceRepo(this)
+
+        checkPermissions()
+        fetchInstanceId()
+        handleIntent(intent)
+
+        enrollmentButton.setOnClickListener { view ->
+            beginEnrollment()
+        }
+
+        manualLinkButton.setOnClickListener{
+            // retreive the linkingCode (i.e the linkingCode from editText) 
+            // from the EditTextView entered into the app
+            val linkingCode =  linkingCodeEditText.text.toString()
+            if(linkingCode.isEmpty()){
+                Toast.makeText(this, "Linking code can't be empty. Please enter linking code in the input field", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            linkUser(linkingCode)
+        }
+
+    }
+
+
+    fun linkUser(linkingCode: String) {
+        // grab PsaManager instance
+        val psaManager = PsaManager.getInstance()
+
+        // LinkingScenarioListener listener
+        val linkingScenarioListener: LinkingScenarioListener = object: LinkingScenarioListener{
+            override fun onLinkingCompletedSuccessful(var1: Long, var3: String){
+                Toast.makeText(this@MainActivity, "Linking Successful", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onLinkingFailed(var1: ApplicationState) {
+                Toast.makeText(this@MainActivity, "Linking not Successful: linkingCode: ${linkingCodeEditText.text} errorCode: ${var1.code} ", Toast.LENGTH_LONG).show()
+            }
+        }
+        // call PsaManager linkTenant method
+        psaManager.linkTenant(linkingCode, preferenceRepo, linkingScenarioListener)
+    }
+
+}
+
+```
+
+
+### For Users With Dedicated Server
+
+We will send a request to our server to start the linking process. We will be sending the ***externalId*** generated from Okay SDK as a parameter to our server(To see how we got the `externalId` please refer to the **enrollment** section above). If our request was processed successfully we will recieve a response with the **linkingCode**
+required to complete the linking. The `linkingCode` is a six digit number generated for this purpose.
+
+We created a wrapper class called RetrofitWrapper to handle network requests.
+
+```kotlin
+//network/RetrofitWrapper.kt
+
+class RetrofitWrapper {
+
+    private val BASE_URL = "URL_TO_YOU_SERVER"
+
+    fun createClient(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    fun handleTransactionEndpoints(): TransactionEndpoints {
+        val retrofit: Retrofit = this.createClient()
+        return retrofit.create(TransactionEndpoints::class.java)
+    }
+}
+
+```
+
+We make a very simple POST request to our server to initiate the linking process using our retrofit wrapper like so.
+
 ```kotlin
 //MainActivity.kt
 
@@ -355,23 +463,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    ...
-
-    private fun linkUser(linkingCode: String) {
-        val psaManager = PsaManager.getInstance()
-        val linkingScenarioListener: LinkingScenarioListener = object: LinkingScenarioListener{
-            override fun onLinkingCompletedSuccessful(var1: Long, var3: String){
-                Toast.makeText(this@MainActivity, "Linking Successful", Toast.LENGTH_LONG).show()
-            }
-
-            override fun onLinkingFailed(var1: ApplicationState) {
-                Toast.makeText(this@MainActivity, "Linking not Successful: linkingCode: ${linkingCodeEditText.text} errorCode: ${var1.code} ", Toast.LENGTH_LONG).show()
-            }
-        }
-
-        psaManager.linkTenant(linkingCode, preferenceRepo, linkingScenarioListener)
-    }
-    ...
 
     private fun startServerLinking(userExternalId: String?) {
        transactionHandler.linkUser(userExternalId).enqueue(object: Callback<OkayLinking>{
@@ -381,7 +472,9 @@ class MainActivity : AppCompatActivity() {
            }
 
            override fun onResponse(call: Call<OkayLinking>, response: Response<OkayLinking>) {
-               linkUser(response?.body()!!.linkingCode)
+            // Retrieve user linkingCode here after network call
+            // then link user afterwards by passing linkingCode 
+            // to PsaManager.linkingTenant() method
            }
        })
     }
@@ -400,7 +493,7 @@ PsaManager.linkTenant(linkingCode: String, spaStorage: SpaStorage, linkingScenar
 
 The **LinkingScenarioListener** must be implemented, as it allows us to listen for two possible events: **onLinkingCompletedSuccessful** and **onLinkingCompletedSuccessful**. We will be implementing this listener soon.
 
-We will also need to implment the **SpaStorage** interface in our application. I think the easiest place to do this, is from one of our repositories(**PreferenceRepo** class in this case). Of course this is just for convenience.
+We will also need to implement the **SpaStorage** interface in our application. I think the easiest place to do this, is from one of our repositories(**PreferenceRepo** class in this case). Of course this is just for convenience.
 
 Below is a typical example of what my **PreferenceRepo** class might look like.
 
@@ -477,14 +570,42 @@ Below is a typical example of what my **PreferenceRepo** class might look like.
 
 ```
 
-This is a typical way to make a call to **linkTenant()** method.
+This is a typical way to make a call to **PsaManager.linkTenant()** method.
 
 ```kotlin
 // MainActivity.kt
 
-private var preferenceRepo = PreferenceRepo(this@MainActivity)
- 
-fun linkUser(linkingCode: String) {
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var preferenceRepo: PreferenceRepo
+    private val permissionHelper = PermissionHelper(this)
+    private val retrofitWrapper = RetrofitWrapper()
+    private val transactionHandler =  retrofitWrapper.handleTransactionEndpoints()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        setSupportActionBar(toolbar)
+
+        preferenceRepo = PreferenceRepo(this)
+
+        checkPermissions()
+        fetchInstanceId()
+        handleIntent(intent)
+
+        enrollmentButton.setOnClickListener { view ->
+            beginEnrollment()
+        }
+
+        linkingButton.setOnClickListener{
+            startServerLinking(preferenceRepo.externalId)
+        }
+
+    }
+
+    ...
+
+    private fun linkUser(linkingCode: String) {
         val psaManager = PsaManager.getInstance()
         val linkingScenarioListener: LinkingScenarioListener = object: LinkingScenarioListener{
             override fun onLinkingCompletedSuccessful(var1: Long, var3: String){
@@ -492,38 +613,35 @@ fun linkUser(linkingCode: String) {
             }
 
             override fun onLinkingFailed(var1: ApplicationState) {
-                Toast.makeText(this@MainActivity, "Linking not Successful: ${var1.code} ", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@MainActivity, "Linking not Successful: linkingCode: ${linkingCodeEditText.text} errorCode: ${var1.code} ", Toast.LENGTH_LONG).show()
             }
         }
 
+        // pass in linkingCode to PsaManager here to 
+        // initiate the linking process
         psaManager.linkTenant(linkingCode, preferenceRepo, linkingScenarioListener)
     }
+    ...
 
-```
+    private fun startServerLinking(userExternalId: String?) {
+       transactionHandler.linkUser(userExternalId).enqueue(object: Callback<OkayLinking>{
+           override fun onFailure(call: Call<OkayLinking>, t: Throwable) {
+               Toast.makeText(this@MainActivity, "Error making request to Server ${t.localizedMessage}", Toast.LENGTH_LONG).show()
+               t.printStackTrace()
+           }
 
-We can now inititiate the call to **PsaManager.linkTenant()** from our apps onCreate method like so.
-
-```kotlin
-// MainActivity.kt
-
- override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
-    setSupportActionBar(toolbar)
-
-    checkPermissions()
-    fetchInstanceId()
-    enrollment_button.setOnClickListener { view ->
-        beginEnrollment()
+           override fun onResponse(call: Call<OkayLinking>, response: Response<OkayLinking>) {
+            // Retrieve user linkingCode here after netwok call
+            // we retrieve the user linkingCode here and 
+            // we  pass in the linkingCode to linkUser method to start linking
+            linkUser(response?.body()!!.linkingCode)
+           }
+       })
     }
 
-    linking_button.setOnClickListener{ view ->
-        // pass in the linking code from the server or entered by the user
-        linkUser(linkingCodeEditText.text.toString())
-    }
-  }
-```
+}
 
+```
 
 ## Authorizing a Transaction with Okay 
 
@@ -533,7 +651,7 @@ The steps are pretty straight forward. We make a request to our server(SPS) to b
 
 Starting an authorization begins with a simple request to your server like so. This is just a simple request using Retrofit in Android.
 
-This is the link to the demo server repository on github  [Link](https://)
+This is the link to the demo server repository on github  [Link](https://github.com/Okaythis/OkayNodeJs)
 
 ```kotlin
 
@@ -559,7 +677,7 @@ private fun startServerAuthorization(userExternalId: String?) {
 }
 ```
 
-This code sends a request to our demo server that initiates the authorization with PSS. Our application will recieve an Push Notification that will be handled by our FirebaseMassagingService (This service is part of Firebase messaging if you are yet to setup Firebase please see this [documentaion](https://firebase.google.com/docs/cloud-messaging/android/client)). In this illustration we extend this service in our app using the `OkayDemoFirebaseMessagingService` class. 
+This code sends a request to our demo server which initiates the authorization with PSS. Our application will recieve a Push Notification that will be handled by our FirebaseMessagingService (This service is part of Firebase messaging, if you are yet to setup Firebase please see this [documentaion](https://firebase.google.com/docs/cloud-messaging/android/client)). In this illustration we extend this service in our app using the `OkayDemoFirebaseMessagingService` class. 
 
 This is what our `OkayDemoFirebaseMessagingService` class looks like.
 
@@ -582,7 +700,7 @@ class OkayDemoFirebaseMessagingService : FirebaseMessagingService() {
             val notificationData = NotificationHandler.extractRemoteData(remoteData)
 
             // You can handle the data from the push notification here
-            // However you seem fit
+            // however you seem fit
             // But in this illustration we just send sessionId as an Intent extra to MainActivity
             startActivity(Intent(this, MainActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -625,7 +743,7 @@ class MainActivity : AppCompatActivity() {
         fetchInstanceId()
         handleIntent(intent)
 
-          enrollmentButton.setOnClickListener { view ->
+        enrollmentButton.setOnClickListener { view ->
             beginEnrollment()
         }
 
@@ -653,6 +771,7 @@ class MainActivity : AppCompatActivity() {
     ...
 
     private fun startAuthorization(sessionId: Long) {
+        // Start authorization here
         PsaManager.startAuthorizationActivity(this, SpaAuthorizationData(sessionId,
             preferenceRepo.appPNS,
             null,
