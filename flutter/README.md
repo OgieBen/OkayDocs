@@ -10,7 +10,7 @@ In order to use this plugin you also need to setup Firebase messaging for Flutte
 
 We start off by adding Okay dependency to our flutter app.
 
-You can get the Okay plugin from this github [repository](). Add the module to your project folder. Then reference the folder in 
+You can get the Okay plugin from this github [repository](https://github.com/Okaythis/FlutterOkaySDK). Add the module to your project folder. Then reference the folder in 
 
 ```yaml
 dependencies:
