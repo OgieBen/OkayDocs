@@ -89,7 +89,7 @@ We can now sync our app's gradle file to build.
 
 ## Init PSA SDK
 
-In order for Okay SDk to work correctly we will need to sync the SDK with PSS. Initialization of the PSA should be done within our Application class, inside the `onCreate()` method.
+In order for Okay SDK to work correctly we will need to sync the SDK with PSS. Initialization of the PSA should be done within our Application class, inside the `onCreate()` method.
 
 We use the `PsaManager` class from Okay to initialize our PSA. We will be using two methods from the `PsaManager` class, the `init()` and `setPssAddress()` methods. The `init()` and `setPssAddress()`  method from the `PsaManager` class has the following structure.
 
@@ -303,7 +303,7 @@ In other to retrieve information from the enrollment Activity, we override the `
 ```
 
 
-## Linking a user with Okay Sdk 
+## Linking a user with Okay SDK
 
 In order to successfully finish the initialization stage we need to link the user with Okay. This allows us to authorize/authenticate a particular user's action.`
 
